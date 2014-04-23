@@ -29,11 +29,6 @@ app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
 app.configure('development', function() {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
@@ -46,7 +41,8 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.get('/task', tasks.list);
-app.post('/task/:id', tasks.info);
+app.get('/task/:id', tasks.get);
+app.post('/task/:id', tasks.get);
 app.post('/task/:id/start', tasks.start);
 app.post('/task/:id/stop', tasks.stop);
 

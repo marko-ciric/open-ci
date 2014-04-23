@@ -1,18 +1,32 @@
 var task = require('../lib/task');
 var redis = require('redis');
+var winston = require('winston');
+var git = require('nodegit');
+var async = require('async');
 
-exports.list = function () {
+var tasks = exports = module.exports = {};
 
+tasks.list = function (req, res) {
+    winston.log('info', 'tasks.list has been called');
+    res.render({id: "all tasks go here"});
 };
 
-exports.start = function (id, time) {
-
+tasks.info = function (req, res) {
+    winston.info('tasks.info has been called');
+    res.render({
+        id: req.id,
+        name: "Task info here"
+    });
 };
 
-exports.stop = function (id, time) {
-
+tasks.start = function (req, res) {
+    winston.info('tasks.start has been called');
 };
 
-exports.get = function (id) {
+tasks.stop = function (req, res) {
+    winston.info('tasks.stop has been called');
+};
 
+tasks.get = function (req, res) {
+    winston.info('tasks.get has been called');
 };

@@ -46,6 +46,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 app.get('/task', tasks.list);
+app.post('/task/:id', tasks.info);
 app.post('/task/:id/start', tasks.start);
 app.post('/task/:id/stop', tasks.stop);
 

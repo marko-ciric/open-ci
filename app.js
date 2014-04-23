@@ -7,7 +7,7 @@ var express = require('express');
 
 var routes = require('./routes');
 var user = require('./routes/user');
-var tasks = require('./routes/tasks');
+var task = require('./routes/task');
 
 var http = require('http');
 var path = require('path');
@@ -36,15 +36,17 @@ app.configure('production', function () {
     app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/user', user.list);
+app.get('/user/:id', user.get);
+app.put('/user', user.create);
+app.post('/user/:id', user.save);
+app.delete('/user/:id', user.remove);
 
-app.get('/users', user.list);
-
-app.get('/task', tasks.list);
-app.get('/task/:id', tasks.get);
-app.post('/task/:id', tasks.get);
-app.post('/task/:id/start', tasks.start);
-app.post('/task/:id/stop', tasks.stop);
+app.get('/task', task.list);
+app.get('/task/:id', task.get);
+app.post('/task/:id', task.get);
+app.post('/task/:id/start', task.start);
+app.post('/task/:id/stop', task.stop);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

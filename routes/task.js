@@ -16,7 +16,7 @@ tasks.list = function (req, res) {
 tasks.info = function (req, res) {
     winston.info('tasks.info has been called');
     res.send({
-        id: req.id,
+        id: req.params.id,
         name: "Task info here"
     });
 };

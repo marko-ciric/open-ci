@@ -10,6 +10,7 @@
         "jade": "*",
         "async": "*",
         "stylus": "*",
+        "mongoose": "*",
         "redis": "*",
         "winston": "*",
         "nodegit": "*"

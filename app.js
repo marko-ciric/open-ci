@@ -5,6 +5,8 @@
 
 var express = require('express');
 
+var mongoose = require('mongoose');
+
 var routes = require('./routes');
 var user = require('./routes/user');
 var task = require('./routes/task');
@@ -47,6 +49,13 @@ app.get('/task/:id', task.get);
 app.post('/task/:id', task.get);
 app.post('/task/:id/start', task.start);
 app.post('/task/:id/stop', task.stop);
+
+mongoose.connect(uri, {
+    db: { native_parser: true },
+    server: { poolSize: 10 },
+    user: 'admin',
+    pass: 'admin'
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

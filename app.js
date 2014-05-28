@@ -4,15 +4,17 @@
  */
 
 var express = require('express');
-
 var mongoose = require('mongoose');
-
 var routes = require('./routes');
 var user = require('./routes/user');
 var task = require('./routes/task');
 
 var http = require('http');
 var path = require('path');
+var clone = require('nodegit').Repo.clone;
+var fs = require('fs');
+var rimraf = require('rimraf');
+var winston = require('winston');
 
 var app = express();
 
@@ -50,11 +52,40 @@ app.post('/task/:id', task.get);
 app.post('/task/:id/start', task.start);
 app.post('/task/:id/stop', task.stop);
 
-mongoose.connect(uri, {
+mongoose.connect('localhost/test', {
     db: { native_parser: true },
-    server: { poolSize: 10 },
-    user: 'admin',
-    pass: 'admin'
+    server: { poolSize: 10 }
+});
+
+var cloneRepo = function () {
+    clone('https://github.com/marko-ciric/koa-angular.git', 'tmp/'.concat(''), null, function (err, repo) {
+        if (err) throw err;
+        repo.getBranch('master', function (err, branch) {
+            if (err) throw err;
+            if (branch.tree !== undefined) {
+                branch.tree(function (err, tree) {
+                    if (err) throw err;
+                    tree.walk().on('entry', function (err, entry) {
+                        entry.name(function (err, name) {
+                            winston.log(name);
+                        });
+                    });
+                });
+
+            }
+        });
+    });
+};
+
+fs.exists('tmp/', function (exists) {
+    if (exists) {
+        rimraf('tmp/', function (success) {
+            winston.log(success);
+            cloneRepo();
+        });
+    } else {
+        cloneRepo();
+    }
 });
 
 http.createServer(app).listen(app.get('port'), function(){

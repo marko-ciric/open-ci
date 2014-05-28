@@ -13,7 +13,8 @@
         "mongoose": "*",
         "redis": "*",
         "winston": "*",
-        "nodegit": "*"
+        "nodegit": "*",
+        "rimraf": "*"
     },
     "devDependencies": {
         "mocha": "*",
